@@ -1,21 +1,16 @@
-
-
 import { createContext, useState, useEffect, useContext } from "react"
 import { authAPI } from "../utils/api"
 
-const AuthContext = createContext()
+export const AuthContext = createContext()
 
-export function useAuth() {
-  return useContext(AuthContext)
-}
+export const useAuth = () => useContext(AuthContext)
 
-export function AuthProvider({ children }) {
+export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null)
   const [token, setToken] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Check if user is logged in from localStorage
     const storedToken = localStorage.getItem("token")
     const storedUser = localStorage.getItem("user")
 
@@ -23,23 +18,18 @@ export function AuthProvider({ children }) {
       setToken(storedToken)
       setCurrentUser(JSON.parse(storedUser))
     }
-
     setLoading(false)
   }, [])
 
-  // Register user
+  // Register
   const register = async (userData) => {
     try {
-      const response = await authAPI.register(userData)
-
-      if (response.success) {
-        setToken(response.token)
-        setCurrentUser(response.user)
-
-        // Save to localStorage
-        localStorage.setItem("token", response.token)
-        localStorage.setItem("user", JSON.stringify(response.user))
-
+      const res = await authAPI.register(userData)
+      if (res.token) {
+        setToken(res.token)
+        setCurrentUser(res.user)
+        localStorage.setItem("token", res.token)
+        localStorage.setItem("user", JSON.stringify(res.user))
         return { success: true }
       }
     } catch (error) {
@@ -47,19 +37,15 @@ export function AuthProvider({ children }) {
     }
   }
 
-  // Login user
+  // Login
   const login = async (credentials) => {
     try {
-      const response = await authAPI.login(credentials)
-
-      if (response.success) {
-        setToken(response.token)
-        setCurrentUser(response.user)
-
-        // Save to localStorage
-        localStorage.setItem("token", response.token)
-        localStorage.setItem("user", JSON.stringify(response.user))
-
+      const res = await authAPI.login(credentials)
+      if (res.token) {
+        setToken(res.token)
+        setCurrentUser(res.user)
+        localStorage.setItem("token", res.token)
+        localStorage.setItem("user", JSON.stringify(res.user))
         return { success: true }
       }
     } catch (error) {
@@ -67,28 +53,22 @@ export function AuthProvider({ children }) {
     }
   }
 
-  // Logout user
+  // Logout
   const logout = () => {
     setToken(null)
     setCurrentUser(null)
-
-    // Remove from localStorage
     localStorage.removeItem("token")
     localStorage.removeItem("user")
   }
 
-  // Update user profile
+  // Update Profile
   const updateProfile = async (profileData) => {
     try {
-      const response = await authAPI.updateProfile(profileData)
-
-      if (response.success) {
-        const updatedUser = { ...currentUser, ...response.data }
+      const res = await authAPI.updateProfile(profileData)
+      if (res.data) {
+        const updatedUser = { ...currentUser, ...res.data }
         setCurrentUser(updatedUser)
-
-        // Update localStorage
         localStorage.setItem("user", JSON.stringify(updatedUser))
-
         return { success: true }
       }
     } catch (error) {
@@ -110,4 +90,3 @@ export function AuthProvider({ children }) {
 
   return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>
 }
-

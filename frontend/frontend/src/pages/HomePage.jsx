@@ -8,10 +8,12 @@ import Header from "../components/Header"
 import Footer from "../components/Footer"
 import DateRangePicker from "../components/DateRangePicker"
 
+
 function HomePage() {
   const [featuredCars, setFeaturedCars] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+
 
   useEffect(() => {
     const fetchFeaturedCars = async () => {
@@ -28,6 +30,8 @@ function HomePage() {
 
     fetchFeaturedCars()
   }, [])
+
+
 
   return (
     <div className="flex min-h-screen flex-col">

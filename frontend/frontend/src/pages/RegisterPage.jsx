@@ -8,14 +8,11 @@ import Header from "../components/Header"
 import Footer from "../components/Footer"
 
 function RegisterPage() {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    agreeToTerms: false,
-  })
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        password: "",
+      });
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const { register } = useAuth()
@@ -46,8 +43,7 @@ function RegisterPage() {
       setLoading(true)
 
       const userData = {
-        firstName: formData.firstName,
-        lastName: formData.lastName,
+        name: formData.name,
         email: formData.email,
         password: formData.password,
       }
@@ -87,34 +83,20 @@ function RegisterPage() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label htmlFor="firstName" className="text-sm font-medium leading-none">
-                    First name
+                   Name
                   </label>
                   <input
-                    id="firstName"
-                    name="firstName"
+                    id="name"
+                    name="name"
                     type="text"
-                    value={formData.firstName}
+                    value={formData.name}
                     onChange={handleChange}
-                    placeholder="John"
+                    
                     className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                     required
                   />
                 </div>
-                <div className="space-y-2">
-                  <label htmlFor="lastName" className="text-sm font-medium leading-none">
-                    Last name
-                  </label>
-                  <input
-                    id="lastName"
-                    name="lastName"
-                    type="text"
-                    value={formData.lastName}
-                    onChange={handleChange}
-                    placeholder="Doe"
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                    required
-                  />
-                </div>
+                
               </div>
               <div className="space-y-2">
                 <label htmlFor="email" className="text-sm font-medium leading-none">
