@@ -1,197 +1,127 @@
-"use client"
-
-import { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
+import Link from "next/link"
+import Image from "next/image"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 import { Star, Users, Fuel, Gauge } from "lucide-react"
-import { Button } from "../ui/Button"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/Card"
-import { Badge } from "../ui/Badge"
-import carService from "../../services/carService"
-import LoadingSpinner from "../common/LoadingSpinner"
 
-const FeaturedCars = () => {
-  const [cars, setCars] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-
-  useEffect(() => {
-    const fetchFeaturedCars = async () => {
-      try {
-        setLoading(true)
-        const response = await carService.getFeaturedCars()
-        setCars(response.data || [])
-        setLoading(false)
-      } catch (err) {
-        setError("Failed to load featured cars",err)
-        setLoading(false)
-      }
-    }
-
-    fetchFeaturedCars()
-  }, [])
-
-  if (loading) {
-    return (
-      <section className="w-full py-12 md:py-24">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center justify-center space-y-4 text-center">
-            <div className="space-y-2">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Featured Cars</h2>
-              <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-                Explore our selection of premium vehicles for your next adventure.
-              </p>
-            </div>
-          </div>
-          <div className="flex justify-center items-center h-64">
-            <LoadingSpinner />
-          </div>
-        </div>
-      </section>
-    )
-  }
-
-  if (error) {
-    return (
-      <section className="w-full py-12 md:py-24">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center justify-center space-y-4 text-center">
-            <div className="space-y-2">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Featured Cars</h2>
-              <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-                Explore our selection of premium vehicles for your next adventure.
-              </p>
-            </div>
-          </div>
-          <div className="text-center text-red-500 mt-8">{error}</div>
-        </div>
-      </section>
-    )
-  }
-
-  // Fallback to sample data if no cars are returned
-  const displayCars =
-    cars.length > 0
-      ? cars
-      : [
-          {
-            _id: 1,
-            name: "Toyota Camry",
-            category: "Sedan",
-            price: 45,
-            images: ["/placeholder.svg?height=200&width=300"],
-            rating: 4.8,
-            seats: 5,
-            fuelType: "Hybrid",
-            mileage: "Unlimited",
-            featured: true,
-          },
-          {
-            _id: 2,
-            name: "Honda CR-V",
-            category: "SUV",
-            price: 65,
-            images: ["/placeholder.svg?height=200&width=300"],
-            rating: 4.7,
-            seats: 5,
-            fuelType: "Gasoline",
-            mileage: "Unlimited",
-            featured: false,
-          },
-          {
-            _id: 3,
-            name: "BMW 3 Series",
-            category: "Luxury",
-            price: 95,
-            images: ["/placeholder.svg?height=200&width=300"],
-            rating: 4.9,
-            seats: 5,
-            fuelType: "Gasoline",
-            mileage: "Unlimited",
-            featured: false,
-          },
-          {
-            _id: 4,
-            name: "Tesla Model 3",
-            category: "Electric",
-            price: 85,
-            images: ["/placeholder.svg?height=200&width=300"],
-            rating: 4.9,
-            seats: 5,
-            fuelType: "Electric",
-            mileage: "Unlimited",
-            featured: true,
-          },
-        ]
+export default function FeaturedCars() {
+  const featuredCars = [
+    {
+      id: 1,
+      name: "Tesla Model 3",
+      category: "Electric",
+      price: 89,
+      image: "https://cdn.pixabay.com/photo/2012/04/12/23/47/car-30984_1280.png?height=200&width=300&text=Tesla+Model+3",
+      rating: 4.9,
+      seats: 5,
+      fuelType: "Electric",
+      mileage: "Unlimited",
+    },
+    {
+      id: 2,
+      name: "BMW 3 Series",
+      category: "Luxury",
+      price: 75,
+      image: "https://cdn.pixabay.com/photo/2012/04/12/23/47/car-30984_1280.png?height=200&width=300&text=BMW+3+Series",
+      rating: 4.7,
+      seats: 5,
+      fuelType: "Gasoline",
+      mileage: "250 mi/day",
+    },
+    {
+      id: 3,
+      name: "Toyota RAV4",
+      category: "SUV",
+      price: 65,
+      image: "https://cdn.pixabay.com/photo/2012/04/12/23/47/car-30984_1280.png?height=200&width=300&text=Toyota+RAV4",
+      rating: 4.8,
+      seats: 5,
+      fuelType: "Hybrid",
+      mileage: "300 mi/day",
+    },
+    {
+      id: 4,
+      name: "Mercedes-Benz E-Class",
+      category: "Luxury",
+      price: 95,
+      image: "https://cdn.pixabay.com/photo/2012/04/12/23/47/car-30984_1280.png?height=200&width=300&text=Mercedes-Benz+E-Class",
+      rating: 4.9,
+      seats: 5,
+      fuelType: "Gasoline",
+      mileage: "200 mi/day",
+    },
+  ]
 
   return (
-    <section className="w-full py-12 md:py-24">
-      <div className="container px-4 md:px-6">
-        <div className="flex flex-col items-center justify-center space-y-4 text-center">
-          <div className="space-y-2">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Featured Cars</h2>
-            <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-              Explore our selection of premium vehicles for your next adventure.
-            </p>
-          </div>
+    <section className="py-16 bg-slate-50">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold mb-4">Featured Cars</h2>
+          <p className="text-slate-600 max-w-2xl mx-auto">
+            Discover our selection of premium vehicles available for rent
+          </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
-          {displayCars.map((car) => (
-            <Card key={car._id} className="overflow-hidden">
-              <div className="relative">
-                <img
-                  src={car.images[0] || "/placeholder.svg?height=200&width=300"}
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {featuredCars.map((car) => (
+            <Card key={car.id} className="overflow-hidden">
+              <div className="relative h-48 bg-slate-200">
+                <Image
+                  src={car.image || "/placeholder.svg"}
                   alt={car.name}
-                  className="w-full object-cover h-[200px]"
+                  width={300}
+                  height={200}
+                  className="w-full h-full object-cover"
                 />
-                {car.featured && <Badge className="absolute top-2 right-2">Featured</Badge>}
+                <Badge className="absolute top-2 right-2">{car.category}</Badge>
               </div>
               <CardHeader>
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-start">
                   <CardTitle>{car.name}</CardTitle>
                   <div className="flex items-center">
-                    <Star className="h-4 w-4 fill-primary text-primary mr-1" />
+                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400 mr-1" />
                     <span className="text-sm font-medium">{car.rating}</span>
                   </div>
                 </div>
-                <div className="text-sm text-muted-foreground">{car.category}</div>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-3 gap-2 text-sm">
-                  <div className="flex flex-col items-center">
-                    <Users className="h-4 w-4 mb-1" />
+                <div className="grid grid-cols-2 gap-2 text-sm mb-4">
+                  <div className="flex items-center gap-1">
+                    <Users className="h-4 w-4 text-slate-400" />
                     <span>{car.seats} seats</span>
                   </div>
-                  <div className="flex flex-col items-center">
-                    <Fuel className="h-4 w-4 mb-1" />
+                  <div className="flex items-center gap-1">
+                    <Fuel className="h-4 w-4 text-slate-400" />
                     <span>{car.fuelType}</span>
                   </div>
-                  <div className="flex flex-col items-center">
-                    <Gauge className="h-4 w-4 mb-1" />
+                  <div className="flex items-center gap-1 col-span-2">
+                    <Gauge className="h-4 w-4 text-slate-400" />
                     <span>{car.mileage}</span>
                   </div>
                 </div>
-              </CardContent>
-              <CardFooter className="flex justify-between items-center">
-                <div>
-                  <span className="text-2xl font-bold">${car.price}</span>
-                  <span className="text-muted-foreground">/day</span>
+                <div className="flex items-baseline justify-between">
+                  <div>
+                    <span className="text-2xl font-bold">${car.price}</span>
+                    <span className="text-slate-500 text-sm"> /day</span>
+                  </div>
                 </div>
-                <Button asChild>
-                  <Link to={`/cars/${car._id}`}>Rent Now</Link>
+              </CardContent>
+              <CardFooter>
+                <Button asChild className="w-full">
+                  <Link href={`/cars/${car.id}`}>View Details</Link>
                 </Button>
               </CardFooter>
             </Card>
           ))}
         </div>
-        <div className="flex justify-center mt-8">
+
+        <div className="text-center mt-10">
           <Button variant="outline" size="lg" asChild>
-            <Link to="/cars">View All Cars</Link>
+            <Link href="/cars">View All Cars</Link>
           </Button>
         </div>
       </div>
     </section>
   )
 }
-
-export default FeaturedCars
-
