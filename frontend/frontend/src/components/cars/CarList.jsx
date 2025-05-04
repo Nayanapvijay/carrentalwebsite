@@ -1,9 +1,6 @@
-import { Link } from "react-router-dom"
-import { Star, Users, Fuel, Gauge } from "lucide-react"
-import { Button } from "../ui/Button"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/Card"
-import { Badge } from "../ui/Badge"
-import LoadingSpinner from "../ui/LoadingSpinner"
+
+// Aswin - This import was not done before.
+import CarCard from "./CarCard";
 
 // const CarList = ({ cars = [], loading = false, error = null }) => {
 //   if (loading) {
@@ -80,17 +77,14 @@ import LoadingSpinner from "../ui/LoadingSpinner"
 //   )
 // }
 const CarList = ({ cars, loading, error }) => {
-    if (loading) return <p>Loading cars...</p>
-    if (error) return <p>Error: {error}</p>
-    if (cars.length === 0) return <p>No cars found.</p>
-  
-    return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {cars.map((car) => (
-          <CarCard key={car._id} car={car} />
-        ))}
-      </div>
-    )
-  }
-export default CarList
+    if (loading) return <p>Loading cars...</p>;
+    if (error) return <p>Error: {error}</p>;
+    if (cars.length === 0) return <p>No cars found.</p>;
 
+    return (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {cars?.length && cars?.map((car) => <CarCard key={car._id} car={car} />)}
+        </div>
+    );
+};
+export default CarList;

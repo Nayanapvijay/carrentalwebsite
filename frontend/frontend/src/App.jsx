@@ -8,7 +8,7 @@ import RegisterPage from "./pages/RegisterPage";
 import AboutPage from "./pages/AboutPage";
 import CarDetailsPage from "./pages/cars/CarDetailsPage";
 import CarsPage from "./pages/cars/CarsPage";
-import ContactPage from "./pages/ContactPage";
+import ContactPage from "./pages/Contactpage";
 import AdminCarFormPage from "./pages/admin/CarFormPage";
 import AdminRoutes from "./components/AdminRoute";
 import ProfilePage from "./pages/user/ProfilePage";
